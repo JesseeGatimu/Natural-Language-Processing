@@ -1,0 +1,12 @@
+import spacy
+nlp=spacy.blank("en")
+text='''
+In today’s world, learning new skills online is easier than ever. From free courses to specialized platforms, there’s an abundance of options to choose from. Websites like https://example-courses.com and https://learn-fast.net offer a wide array of resources for different topics. If you’re interested in technology, platforms such as https://tech-insights.org and https://future-innovators.com provide both beginner and advanced content. Those looking to enhance their productivity can also benefit from tools and guides found on https://boost-efficiency.io or https://smart-workflows.info. Each of these websites has its unique style and offerings, making them valuable resources for anyone aiming to expand their knowledge.
+
+'''
+doc=nlp(text)
+links=[]
+for token in doc:
+  if token.like_url:
+    links.append(token.text)
+print(links)
