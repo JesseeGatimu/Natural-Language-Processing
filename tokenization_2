@@ -1,0 +1,7 @@
+import spacy
+nlp=spacy.blank("en")
+text="The initial investment required for the project is $1,200, which includes equipment and software. Monthly expenses are expected to be around €800 for staff and utilities. Additionally, we’ve allocated ¥50,000 for marketing efforts in the local region. For international promotions, a budget of £1,000 has been set aside. The estimated revenue for the first quarter is projected to be approximately $5,000, but we aim to increase that to €7,500 by the second quarter."
+doc=nlp(text)
+for token in doc:
+  if token.is_currency and doc[token.i+1].like_num:
+    print(token,doc[token.i+1])
