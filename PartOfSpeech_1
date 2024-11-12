@@ -1,0 +1,16 @@
+import spacy
+nlp=spacy.load("en_core_web_sm")
+doc=nlp("Lighthouses, standing tall and solitary along rugged coastlines, have guided ships safely for centuries. These structures, often painted in bold stripes or distinctive patterns, are designed to be easily visible in the fog, storms, and darkness. Each lighthouse has its unique light pattern, which mariners can recognize from a distance, providing a reliable point of navigation. Once manned by keepers who tended to the light through all weather, lighthouses are now mostly automated, yet they continue to serve as powerful symbols of guidance, resilience, and the human connection to the sea.")
+for token in doc:
+  print(token ," | " ,spacy.explain(token.pos_)," | ",spacy.explain(token.tag_))
+numeral_tokens=[]
+noun_tokens=[]
+for token in doc:
+  if token=="NOUN":
+    noun_tokens.append(token)
+  elif token=="NUM":
+    numeral_tokens.append(token)
+count = doc.count_by(spacy.attrs.POS)
+print(count)
+for k,v in count.items():
+  print(doc.vocab[k].text," | ",v)
