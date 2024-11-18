@@ -1,0 +1,24 @@
+import pandas as pd
+import numpy as np
+df=pd.read_csv("/content/IMDB Dataset.csv")
+df.head(10)
+df["positive"]=df["sentiment"].apply(lambda x: 1 if x=="positive" else 0)
+print(df.head(10))
+#split the dataset into training and testing and ssplitting datasets
+from sklearn.model_selection import train_test_split
+X_train,X_test,y_train,y_test=train_test_split(df.review,df.positive,test_size=0.2)
+type(X_train.values)
+#we import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+v= CountVectorizer()
+X_train_cv=v.fit_transform(X_train.values)
+X_train_cv
+from sklearn.naive_bayes import MultinomialNB
+model=MultinomialNB()
+model.fit(X_train_cv,y_train)
+#confirm the accuracy of the model
+X_test_cv=v.transform(X_test)
+from sklearn.metrics import classification_report
+y_pred=model.predict(X_test_cv)
+cr=classification_report(y_test,y_pred)
+print(cr)
