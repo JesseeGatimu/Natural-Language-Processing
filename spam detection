@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+df=pd.read_csv("/content/spam.csv")
+print(df.head(10))
+df.Category.value_counts()
+#we represent the  value of spam is 1 and ham is 0
+df["spam"]=df["Category"].apply(lambda x: 1 if x=="spam" else 0)
+print(df.head(10))
+#split the dataset
+X=df[["Message"]]
+y=df["spam"]
+from sklearn.model_selection import train_test_split
+X_train,X_test,y_train,y_test=train_test_split(df.Message,df.spam,test_size=0.2)
+type(X_train.values)
+#we import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+v= CountVectorizer()
+X_train_cv=v.fit_transform(X_train.values)
+X_train_cv
+from sklearn.naive_bayes import MultinomialNB
+model=MultinomialNB()
+model.fit(X_train_cv,y_train)
+#confirm the accuracy of the model
+X_test_cv=v.transform(X_test)
+from sklearn.metrics import classification_report
+y_pred=model.predict(X_test_cv)
+cr=classification_report(y_test,y_pred)
+print(cr)
+from sklearn.metrics import confusion_matrix
+cm=confusion_matrix(y_test,y_pred)
+import seaborn as sn
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10,7))
+sn.heatmap(cm,annot=True)
+plt.xlabel("Predicted")
+plt.ylabel("Truth")
