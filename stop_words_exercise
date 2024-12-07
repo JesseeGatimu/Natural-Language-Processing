@@ -1,0 +1,12 @@
+import spacy
+nlp=spacy.load("en_core_web_sm")
+text="Nairobi, the bustling capital of Kenya, is a city where modernity meets tradition in a seamless blend. Known as the Green City in the Sun, it is surrounded by natural beauty, including the iconic Nairobi National Park, where wildlife roams against a backdrop of skyscrapers. The city thrives as a hub of commerce, culture, and innovation, offering a vibrant nightlife, diverse cuisine, and bustling markets like Maasai Market, teeming with handmade crafts and art. Nairobi's rich history is reflected in landmarks like the Karen Blixen Museum and the historic Railway Museum, while its forward-looking spirit is seen in its rapidly growing tech scene, often referred to as the Silicon Savannah."
+doc=nlp(text)
+stop_count=0
+words_count=0
+for token in doc:
+  if token.is_stop:
+    stop_count+=1
+  words_count+=1
+print("The number of stop words count is ::",stop_count)
+print("The total number of words is ::",words_count)
