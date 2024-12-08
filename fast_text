@@ -1,0 +1,18 @@
+import fasttext
+import pandas as pd
+df=pd.read_csv("/content/Cleaned_Indian_Food_Dataset.csv")
+df.head(5)
+df.TranslatedInstructions[0]
+import re
+text = 'To begin making the Masala Karela Recipe,de-seed the karela and slice.\nDo not remove the skin as the skin has all the nutrients.\nAdd the karela to the pressure cooker with 3 tablespoon of water, salt and turmeric powder and pressure cook for three whistles.\nRelease the pressure immediately and open the lids.\nKeep aside.Heat oil in a heavy bottomed pan or a kadhai.\nAdd cumin seeds and let it sizzle.Once the cumin seeds have sizzled, add onions and saute them till it turns golden brown in color.Add the karela, red chilli powder, amchur powder, coriander powder and besan.\nStir to combine the masalas into the karela.Drizzle a little extra oil on the top and mix again.\nCover the pan and simmer Masala Karela stirring occasionally until everything comes together well.\nTurn off the heat.Transfer Masala Karela into a serving bowl and serve.Serve Masala Karela along with Panchmel Dal and Phulka for a weekday meal with your family.\n'
+re.sub(r"[^\w\s]", " ", text, flags=re.MULTILINE)
+def preprocess(text):
+    text = re.sub(r'[^\w\s\']',' ', text)
+    text = re.sub(r'[ \n]+', ' ', text)
+    return text.strip().lower()
+text = 'To begin making the Masala Karela Recipe,de-seed the karela and slice.\nDo not remove the skin as the skin has all the nutrients.\nAdd the karela to the pressure cooker with 3 tablespoon of water, salt and turmeric powder and pressure cook for three whistles.\nRelease the pressure immediately and open the lids.\nKeep aside.Heat oil in a heavy bottomed pan or a kadhai.\nAdd cumin seeds and let it sizzle.Once the cumin seeds have sizzled, add onions and saute them till it turns golden brown in color.Add the karela, red chilli powder, amchur powder, coriander powder and besan.\nStir to combine the masalas into the karela.Drizzle a little extra oil on the top and mix again.\nCover the pan and simmer Masala Karela stirring occasionally until everything comes together well.\nTurn off the heat.Transfer Masala Karela into a serving bowl and serve.Serve Masala Karela along with Panchmel Dal and Phulka for a weekday meal with your family.\n'
+preprocess(text)
+df.to_csv("receipes.txt", columns=["TranslatedInstructions"], header=None, index=False)
+import fasttext
+model = fasttext.train_unsupervised("receipes.txt")
+model.get_nearest_neighbors("tikka")
