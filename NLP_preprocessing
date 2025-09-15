@@ -1,0 +1,40 @@
+import spacy
+
+text="Jesse Gatimu Kihara"
+print(text.lower())
+
+#tokenization
+import nltk
+nltk.download('punkt_tab')
+from nltk.tokenize import word_tokenize, sent_tokenize
+text="Jesse Gatimu is a very good person. He has a very clean heart. "
+print("Word Tokenizer",word_tokenize(text))
+print("Sentence Tokenizer",sent_tokenize(text))
+
+import re
+text="Good afternoon, My name is Jesse , kiahara 1 . "
+cleaned=re.sub(r"[^a-zA-Z\s]","",text)
+print(cleaned)
+
+nltk.download("stopwords")
+from nltk.tokenize import word_tokenize
+stop_words=set(stopwords.words("english"))
+words=word_tokenize("This is the sentence to show tokenization")
+filtered=[w for w in words if w.lower() not in stop_words] 
+print(filtered)
+
+import spacy
+nlp=spacy.load("en_core_web_sm")
+text="Running Jumping Hiding Eating"
+doc=nlp(text)
+for token in doc:
+  print("Lemmatization ",token.lemma_)
+
+text="My mom is a very decent human being in the making"
+doc=nlp(text)
+for token in doc:
+  print(f"{token.pos_} --> {token.text}")
+
+doc=nlp(" Larry Ellison has surpassed Elon Musk to be the richest man on earth.")
+for ent in doc.ents:
+  print(ent.text,"-->",ent.label_)
